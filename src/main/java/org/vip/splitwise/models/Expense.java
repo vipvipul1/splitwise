@@ -35,6 +35,7 @@ public class Expense extends BaseModel {
     @OneToMany(mappedBy = "expense")
     private List<UserExpense> userExpenses;
 
+    // Here, @JoinColumn not required because we are using external mapping table GROUP_EXPENSE for this relationship between GROUP and EXPENSE which is defined in Group class.
     @JsonIgnoreProperties({"expenses"})
     @ManyToOne(targetEntity = Group.class)
     private Group group;
