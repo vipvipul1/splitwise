@@ -17,10 +17,11 @@ public class UserExpense extends BaseModel {
     private Long hadToPay;
 
     @OneToOne
-    @JoinColumn(name = "USER")
+    @JoinColumn(name = "USER_ID")
     private User user;
 
     @JsonIgnoreProperties({"userExpenses"})
     @ManyToOne
+    @JoinColumn(name = "EXPENSE_ID")
     private Expense expense;
 }

@@ -36,9 +36,6 @@ public class Expense extends BaseModel {
     private List<UserExpense> userExpenses;
 
     @JsonIgnoreProperties({"expenses"})
-    @ManyToOne
-    @JoinTable(name = "GROUP_EXPENSE",
-            joinColumns = {@JoinColumn(name = "EXPENSE_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "GROUP_ID")})
+    @ManyToOne(targetEntity = Group.class)
     private Group group;
 }
