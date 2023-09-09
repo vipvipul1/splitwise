@@ -12,9 +12,10 @@ import java.util.List;
 
 @Component
 public class RegisterCommand implements Command {
-    /*  Expected Input:     Register vipvipul 7778889990 pass (user is registering with username "vipvipul", phone "7778889990", password "pass"
-        Expected Output:    SUCCESS. User Id: generatedUserId
-     */
+    /*
+        Expected Input:     Register vipvipul 7778889990 pass (user is registering with username "vipvipul", phone "7778889990", password "pass")
+        Expected Output:    SUCCESS. User Id: u1
+    */
     private UserController userController;
 
     @Autowired

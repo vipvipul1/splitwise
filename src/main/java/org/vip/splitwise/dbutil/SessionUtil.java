@@ -3,17 +3,17 @@ package org.vip.splitwise.dbutil;
 import org.vip.splitwise.models.User;
 
 public class SessionUtil {
-    private User user;
+    private static User user;
 
-    public void signInUser(User user) {
-        this.user = user;
+    public static void signInUser(User user) {
+        SessionUtil.user = user;
     }
 
-    public boolean isUserSignedIn() {
+    public static boolean isUserSignedIn() {
         return user != null;
     }
 
-    public void logoutUser() {
+    public static void logoutUser() {
         user = null;
     }
 }

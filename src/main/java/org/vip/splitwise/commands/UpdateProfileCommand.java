@@ -6,8 +6,10 @@ import org.vip.splitwise.controllers.UserController;
 
 @Component
 public class UpdateProfileCommand implements Command {
-    // Expected Input:  vipvipul UpdateProfile passcode (user with username "vipvipul" is updating his password to "passcode"
-    // Expected Output: SUCCESS
+    /*
+        Expected Input:     u1 UpdateProfile passcode (user with userId u1 is updating his password to "passcode")
+        Expected Output:    SUCCESS
+    */
     private UserController userController;
 
     @Autowired

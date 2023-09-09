@@ -4,12 +4,22 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "USER_EXPENSE")
-public class UserExpense extends BaseModel {
+public class UserExpense {
+    @Id
+    @GeneratedValue(generator = "user-expense-generator")
+    @GenericGenerator(name = "user-expense-generator",
+            parameters = @Parameter(name = "prefix", value = "ue"),
+            type = SplitwiseIdGenerator.class)
+    @Column(name = "ID")
+    private String id;
+
     @Column(name = "PAID")
     private Long paid;
 

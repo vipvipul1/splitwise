@@ -6,6 +6,9 @@ import lombok.Getter;
 public enum CommandType {
     REGISTER("Register"),
     UPDATE_PROFILE("UpdateProfile"),
+    ADD_GROUP("AddGroup"),
+    ADD_MEMBER("AddMember"),
+    EXPENSE("Expense"),
     SETTLE_UP("SettleUp");
 
     private final String label;

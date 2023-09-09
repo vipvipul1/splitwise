@@ -4,14 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.vip.splitwise.models.Group;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRequestDto {
-    private String userId;
-    private String username;
-    private Long phone;
-    private String password;
+public class GroupResponseDto extends BaseResponse {
+    private Group group;
 }

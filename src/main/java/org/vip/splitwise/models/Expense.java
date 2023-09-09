@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,10 +14,17 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "EXPENSE")
-public class Expense extends BaseModel {
+public class Expense {
+    @Id
+    @GeneratedValue(generator = "expense-generator")
+    @GenericGenerator(name = "expense-generator",
+            parameters = @Parameter(name = "prefix", value = "e"),
+            type = SplitwiseIdGenerator.class)
+    @Column(name = "ID")
+    private String id;
 
     @Column(name = "DESCRIPTION")
-    private String Description;
+    private String description;
 
     @Column(name = "AMOUNT")
     private Long amount;
@@ -35,8 +44,10 @@ public class Expense extends BaseModel {
     @OneToMany(mappedBy = "expense")
     private List<UserExpense> userExpenses;
 
-    // Here, @JoinColumn not required because we are using external mapping table GROUP_EXPENSE for this relationship between GROUP and EXPENSE which is defined in Group class.
-    @JsonIgnoreProperties({"expenses"})
-    @ManyToOne(targetEntity = Group.class)
-    private Group group;
+//    @JsonIgnoreProperties({"expenses"})
+//    @ManyToOne
+//    @JoinTable(name = "GROUP_EXPENSE",
+//            joinColumns = {@JoinColumn(name = "GROUP_ID")},
+//            inverseJoinColumns = {@JoinColumn(name = "EXPENSE_ID")})
+//    private Group group;
 }

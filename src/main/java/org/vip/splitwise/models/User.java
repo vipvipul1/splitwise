@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 import java.util.List;
 
@@ -15,7 +17,15 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "USER")
-public class User extends BaseModel {
+public class User {
+    @Id
+    @GeneratedValue(generator = "user-generator")
+    @GenericGenerator(name = "user-generator",
+            parameters = @Parameter(name = "prefix", value = "u"),
+            type = SplitwiseIdGenerator.class)
+    @Column(name = "ID")
+    private String id;
+
     @Column(name = "USERNAME")
     private String username;
 
@@ -25,10 +35,7 @@ public class User extends BaseModel {
     @Column(name = "PASSWORD")
     private String password;
 
-    @JsonIgnoreProperties({"createdBy", "members"})
-    @ManyToMany
-    @JoinTable(name = "GROUP_USER",
-            joinColumns = {@JoinColumn(name = "USER_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "GROUP_ID")})
-    private List<Group> groups;
+    @JsonIgnoreProperties({"user", "addedBy"})
+    @OneToMany(mappedBy = "user")
+    private List<GroupUser> groups;
 }

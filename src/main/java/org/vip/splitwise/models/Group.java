@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,28 +14,32 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "GROUP")
-public class Group extends BaseModel {
+public class Group {
+    @Id
+    @GeneratedValue(generator = "group-generator")
+    @GenericGenerator(name = "group-generator",
+            parameters = @Parameter(name = "prefix", value = "g"),
+            type = SplitwiseIdGenerator.class)
+    @Column(name = "ID")
+    private String id;
+
     @Column(name = "NAME")
     private String name;
 
     @Column(name = "CREATED_ON")
     private LocalDateTime createdOn;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "CREATED_BY")
     private User createdBy;
 
-    @JsonIgnoreProperties({"groups"})
-    @ManyToMany
-    @JoinTable(name = "GROUP_USER",
-            joinColumns = {@JoinColumn(name = "GROUP_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "USER_ID")})
-    private List<User> members;
+    @JsonIgnoreProperties({"group", "addedBy"})
+    @OneToMany(mappedBy = "group")
+    private List<GroupUser> users;
 
-    @JsonIgnoreProperties({"group"})
     @OneToMany
     @JoinTable(name = "GROUP_EXPENSE",
             joinColumns = {@JoinColumn(name = "GROUP_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "EXPENSE_ID")})
+            inverseJoinColumns = {@JoinColumn(name = "EXPENSE_ID", unique = true)})
     private List<Expense> expenses;
 }
