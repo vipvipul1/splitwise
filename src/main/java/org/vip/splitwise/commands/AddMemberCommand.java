@@ -7,10 +7,7 @@ import org.vip.splitwise.controllers.GroupController;
 import org.vip.splitwise.dtos.GroupRequestDto;
 import org.vip.splitwise.dtos.GroupResponseDto;
 import org.vip.splitwise.models.Group;
-import org.vip.splitwise.models.GroupUser;
 import org.vip.splitwise.models.User;
-
-import java.util.List;
 
 @Component
 public class AddMemberCommand implements Command {
@@ -49,10 +46,11 @@ public class AddMemberCommand implements Command {
         requestDto.setAddedUser(addedUser);
         requestDto.setAddedByUser(addedByUser);
         GroupResponseDto responseDto = groupController.addGroupMember(requestDto);
-        if (responseDto.getResponseCode() == HttpStatus.OK)
+        if (responseDto.getResponseCode() == HttpStatus.OK) {
             System.out.println(responseDto.getResponseMsg() + ". User " + addedUser.getId()
                     + " added in group: " + responseDto.getGroup().getName());
-        else
+        } else {
             System.out.println(responseDto.getResponseMsg());
+        }
     }
 }

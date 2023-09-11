@@ -1,12 +1,9 @@
 package org.vip.splitwise.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 
 @Getter
 @Setter
@@ -35,7 +32,7 @@ public class GroupUser {
     @JoinColumn(name = "ADDED_BY_USER_ID")
     private User addedBy;
 
-    public static GroupUserBuilder getBuilder() {
+    public static GroupUserBuilder builder() {
         return new GroupUserBuilder();
     }
 
@@ -61,9 +58,9 @@ public class GroupUser {
 
         public GroupUser build() {
             GroupUser groupUser = new GroupUser();
-            groupUser.group = group;
-            groupUser.user = user;
-            groupUser.addedBy = addedBy;
+            groupUser.setGroup(group);
+            groupUser.setUser(user);
+            groupUser.setAddedBy(addedBy);
             return groupUser;
         }
     }

@@ -38,4 +38,51 @@ public class User {
     @JsonIgnoreProperties({"user", "addedBy"})
     @OneToMany(mappedBy = "user")
     private List<GroupUser> groups;
+
+    public static UserBuilder builder() {
+        return new UserBuilder();
+    }
+
+    public static class UserBuilder {
+        private String id;
+        private String username;
+        private Long phone;
+        private String password;
+        private List<GroupUser> groups;
+
+        public UserBuilder setId(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public UserBuilder setUsername(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public UserBuilder setPhone(Long phone) {
+            this.phone = phone;
+            return this;
+        }
+
+        public UserBuilder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public UserBuilder setGroups(List<GroupUser> groups) {
+            this.groups = groups;
+            return this;
+        }
+
+        public User build() {
+            User user = new User();
+            user.setId(id);
+            user.setUsername(username);
+            user.setPhone(phone);
+            user.setPassword(password);
+            user.setGroups(groups);
+            return user;
+        }
+    }
 }

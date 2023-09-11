@@ -6,8 +6,6 @@ import org.springframework.stereotype.Component;
 import org.vip.splitwise.controllers.GroupController;
 import org.vip.splitwise.dtos.GroupRequestDto;
 import org.vip.splitwise.dtos.GroupResponseDto;
-import org.vip.splitwise.dtos.UserRequestDto;
-import org.vip.splitwise.dtos.UserResponseDto;
 import org.vip.splitwise.models.Group;
 import org.vip.splitwise.models.User;
 
@@ -44,9 +42,10 @@ public class AddGroupCommand implements Command {
 
         requestDto.setGroup(group);
         GroupResponseDto responseDto = groupController.addGroup(requestDto);
-        if (responseDto.getResponseCode() == HttpStatus.OK)
+        if (responseDto.getResponseCode() == HttpStatus.OK) {
             System.out.println(responseDto.getResponseMsg() + ". Group Id: " + responseDto.getGroup().getId());
-        else
+        } else {
             System.out.println(responseDto.getResponseMsg());
+        }
     }
 }

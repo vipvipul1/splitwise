@@ -42,4 +42,58 @@ public class Group {
             joinColumns = {@JoinColumn(name = "GROUP_ID")},
             inverseJoinColumns = {@JoinColumn(name = "EXPENSE_ID", unique = true)})
     private List<Expense> expenses;
+
+    public static GroupBuilder builder() {
+        return new GroupBuilder();
+    }
+
+    public static class GroupBuilder {
+        private String id;
+        private String name;
+        private LocalDateTime createdOn;
+        private User createdBy;
+        private List<GroupUser> users;
+        private List<Expense> expenses;
+
+        public GroupBuilder setId(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public GroupBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public GroupBuilder setCreatedOn(LocalDateTime createdOn) {
+            this.createdOn = createdOn;
+            return this;
+        }
+
+        public GroupBuilder setCreatedBy(User createdBy) {
+            this.createdBy = createdBy;
+            return this;
+        }
+
+        public GroupBuilder setUsers(List<GroupUser> users) {
+            this.users = users;
+            return this;
+        }
+
+        public GroupBuilder setExpenses(List<Expense> expenses) {
+            this.expenses = expenses;
+            return this;
+        }
+
+        public Group build() {
+            Group group = new Group();
+            group.setId(id);
+            group.setName(name);
+            group.setCreatedBy(createdBy);
+            group.setCreatedOn(createdOn);
+            group.setUsers(users);
+            group.setExpenses(expenses);
+            return group;
+        }
+    }
 }

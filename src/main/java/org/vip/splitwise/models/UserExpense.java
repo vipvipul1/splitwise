@@ -21,17 +21,17 @@ public class UserExpense {
     private String id;
 
     @Column(name = "PAID")
-    private Long paid;
+    private Double paid;
 
     @Column(name = "HAD_TO_PAY")
-    private Long hadToPay;
+    private Double hadToPay;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
 
     @JsonIgnoreProperties({"userExpenses"})
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "EXPENSE_ID")
     private Expense expense;
 }

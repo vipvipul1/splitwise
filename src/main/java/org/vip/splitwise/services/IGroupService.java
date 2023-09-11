@@ -36,6 +36,8 @@ public class IGroupService implements GroupService {
             group.setCreatedBy(createdBy);
             group.setCreatedOn(LocalDateTime.now());
             savedGroup = groupRepository.save(group);
+
+            addGroupMember(savedGroup, createdBy, createdBy);
         } catch (Exception e) {
             LOGGER.error("Error in IGroupService -> addGroup() : " + e.getMessage());
             throw e;
@@ -44,15 +46,16 @@ public class IGroupService implements GroupService {
     }
 
     @Override
+    @Transactional
     public Group addGroupMember(Group group, User addedUser, User addedByUser) {
-        Group groupEntity;
+        Group groupDb;
         try {
-            GroupUser groupUser = GroupUser.getBuilder().setGroup(group).setUser(addedUser).setAddedBy(addedByUser).build();
-            groupEntity = groupUserRepository.save(groupUser).getGroup();
+            GroupUser groupUser = GroupUser.builder().setGroup(group).setUser(addedUser).setAddedBy(addedByUser).build();
+            groupDb = groupUserRepository.save(groupUser).getGroup();
         } catch (Exception e) {
             LOGGER.error("Error in IGroupService -> addGroupMember() : " + e.getMessage());
             throw e;
         }
-        return groupEntity;
+        return groupDb;
     }
 }
