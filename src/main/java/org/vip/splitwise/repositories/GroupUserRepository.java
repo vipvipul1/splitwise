@@ -13,4 +13,6 @@ public interface GroupUserRepository extends JpaRepository<GroupUser, GroupUserI
     List<GroupUser> findAllByGroupAndUserIsNotIn(Group group, List<User> users);
 
     List<GroupUser> findAllByUserId(String userId);
+
+    List<GroupUser> getGroupsByUserId(String userId);
 }

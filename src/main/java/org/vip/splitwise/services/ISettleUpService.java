@@ -9,15 +9,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.vip.splitwise.dtos.SettleUpResponseDto;
 import org.vip.splitwise.dtos.SettleUpTrxn;
 import org.vip.splitwise.exceptions.GroupNotFoundException;
-import org.vip.splitwise.models.*;
-import org.vip.splitwise.repositories.GroupExpenseRepository;
+import org.vip.splitwise.models.Expense;
+import org.vip.splitwise.models.Group;
+import org.vip.splitwise.models.GroupUser;
+import org.vip.splitwise.models.UserExpense;
 import org.vip.splitwise.repositories.GroupRepository;
 import org.vip.splitwise.repositories.GroupUserRepository;
 import org.vip.splitwise.repositories.UserExpenseRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class ISettleUpService implements SettleUpService {
@@ -43,14 +44,17 @@ public class ISettleUpService implements SettleUpService {
             List<UserExpense> groupUserExpenses = new ArrayList<>();
             List<GroupUser> groupUsers = groupUserRepo.findAllByUserId(userId);
             if (!groupUsers.isEmpty()) {
-                List<Group> groups = groupUsers.stream().flatMap(gu -> Stream.of(gu.getGroup())).toList();
+                List<Group> groups = groupUsers.stream()
+                        .map(GroupUser::getGroup)
+                        .toList();
                 groupUserExpenses = userExpenseRepo.findAllUserExpensesByGroups(groups);
                 List<SettleUpTrxn> groupTrxns = populateTransactions(groupUserExpenses, userId);
                 settleUpTrxns.addAll(groupTrxns);
             }
 
             Set<Expense> groupExpenses = groupUserExpenses.stream()
-                    .flatMap(ue -> Stream.of(ue.getExpense())).collect(Collectors.toSet());
+                    .map(UserExpense::getExpense)
+                    .collect(Collectors.toSet());
             if (groupExpenses.isEmpty())
                 groupExpenses = null;
             List<UserExpense> nonGroupUserExpenses = userExpenseRepo.findAllByUserIdNotInGroupExpense(userId, groupExpenses);

@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 @Service
 public class IExpenseService implements ExpenseService {
@@ -74,10 +73,10 @@ public class IExpenseService implements ExpenseService {
                 userIds.remove(userIds.size() - 1);
                 Group group = Group.builder().setId(lastId).build();
                 List<User> paidUsers = userIds.stream()
-                        .flatMap(id -> Stream.of(User.builder().setId(id).build()))
+                        .map(id -> User.builder().setId(id).build())
                         .toList();
                 List<GroupUser> notPaidUsers = groupUserRepo.findAllByGroupAndUserIsNotIn(group, paidUsers);
-                userIds.addAll(notPaidUsers.stream().flatMap(u -> Stream.of(u.getUser().getId())).toList());
+                userIds.addAll(notPaidUsers.stream().map(u -> u.getUser().getId()).toList());
             }
             List<UserExpense>  userExpenses = getAllUserExpenses(requestDto, userIds, savedExpense);
 

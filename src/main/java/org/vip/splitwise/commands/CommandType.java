@@ -8,6 +8,7 @@ public enum CommandType {
     UPDATE_PROFILE("UpdateProfile"),
     ADD_GROUP("AddGroup"),
     ADD_MEMBER("AddMember"),
+    GROUPS("Groups"),
     EXPENSE("Expense"),
     SETTLE_UP("SettleUp"),
     MY_TOTAL("MyTotal");

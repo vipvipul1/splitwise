@@ -12,6 +12,7 @@ import org.vip.splitwise.repositories.GroupRepository;
 import org.vip.splitwise.repositories.GroupUserRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class IGroupService implements GroupService {
@@ -57,5 +58,19 @@ public class IGroupService implements GroupService {
             throw e;
         }
         return groupDb;
+    }
+
+    @Override
+    @Transactional
+    public List<Group> getGroupsByUser(String userId) {
+        List<Group> groups;
+        try {
+            List<GroupUser> groupUsers = groupUserRepository.getGroupsByUserId(userId);
+            groups = groupUsers.stream().map(GroupUser::getGroup).toList();
+        } catch (Exception e) {
+            LOGGER.error("Error in IGroupService -> getGroupsByUser() : " + e.getMessage());
+            throw e;
+        }
+        return groups;
     }
 }
