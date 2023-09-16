@@ -9,7 +9,8 @@ public enum CommandType {
     ADD_GROUP("AddGroup"),
     ADD_MEMBER("AddMember"),
     EXPENSE("Expense"),
-    SETTLE_UP("SettleUp");
+    SETTLE_UP("SettleUp"),
+    MY_TOTAL("MyTotal");
 
     private final String label;
 

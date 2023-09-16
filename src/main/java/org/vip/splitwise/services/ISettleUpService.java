@@ -36,7 +36,7 @@ public class ISettleUpService implements SettleUpService {
 
     @Override
     @Transactional
-    public SettleUpResponseDto getAllUserSettleUpTransactions(String userId) {
+    public SettleUpResponseDto getUserSettleUpTransactionsAll(String userId) {
         SettleUpResponseDto responseDto = new SettleUpResponseDto();
         List<SettleUpTrxn> settleUpTrxns = new ArrayList<>();
         try {
@@ -66,7 +66,7 @@ public class ISettleUpService implements SettleUpService {
 
     @Override
     @Transactional
-    public SettleUpResponseDto getAllGroupSettleUpTransactions(String groupId) throws GroupNotFoundException {
+    public SettleUpResponseDto getGroupSettleUpTransactionsAll(String groupId) throws GroupNotFoundException {
         SettleUpResponseDto responseDto = new SettleUpResponseDto();
         try {
             Optional<Group> group = groupRepo.findById(groupId);
@@ -139,5 +139,28 @@ public class ISettleUpService implements SettleUpService {
             settleUpTrxns.add(trxn);
         }
         return settleUpTrxns;
+    }
+
+    @Override
+    @Transactional
+    public Double getUserTotalOutstanding(String userId) {
+        double outstanding;
+        try {
+            List<SettleUpTrxn> settleUpTrxns = getUserSettleUpTransactionsAll(userId).getSettleUpTrxns();
+            double toGive = 0.0, toReceive = 0.0;
+            for (SettleUpTrxn trxn : settleUpTrxns) {
+                if (trxn.getFromUserId().equals(userId)) {
+                    toGive += trxn.getAmount();
+                } else {
+                    toReceive += trxn.getAmount();
+                }
+            }
+            // +ve outstanding means user needs to give to others. -ve means user will get from others.
+            outstanding = toGive - toReceive;
+        } catch (Exception e) {
+            LOGGER.error("Error in ISettleUpService -> getUserTotalOutstanding() : " + e.getMessage());
+            throw e;
+        }
+        return outstanding;
     }
 }
