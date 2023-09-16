@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "GROUP")
-public class Group {
+public class Group implements Serializable {
     @Id
     @GeneratedValue(generator = "group-generator")
     @GenericGenerator(name = "group-generator",

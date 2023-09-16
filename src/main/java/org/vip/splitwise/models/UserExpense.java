@@ -7,11 +7,13 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "USER_EXPENSE")
-public class UserExpense {
+public class UserExpense implements Serializable {
     @Id
     @GeneratedValue(generator = "user-expense-generator")
     @GenericGenerator(name = "user-expense-generator",

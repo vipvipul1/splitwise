@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import java.io.Serializable;
 import java.util.List;
 
 @NoArgsConstructor
@@ -17,7 +18,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "USER")
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(generator = "user-generator")
     @GenericGenerator(name = "user-generator",

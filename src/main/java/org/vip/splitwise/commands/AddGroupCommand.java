@@ -25,7 +25,7 @@ public class AddGroupCommand implements Command {
     @Override
     public boolean matches(String input) {
         String[] params = input.split(" ");
-        return params.length == 3 && CommandType.ADD_GROUP.getLabel().equals(params[1]);
+        return params.length >= 3 && CommandType.ADD_GROUP.getLabel().equals(params[1]);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class AddGroupCommand implements Command {
 
         Group group = new Group();
         group.setCreatedBy(user);
-        group.setName(params[2]);
+        group.setName(input.split(" AddGroup ")[1]);
 
         requestDto.setGroup(group);
         GroupResponseDto responseDto = groupController.addGroup(requestDto);

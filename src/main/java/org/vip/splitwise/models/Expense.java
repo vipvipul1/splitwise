@@ -7,14 +7,16 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "EXPENSE")
-public class Expense {
+public class Expense implements Serializable {
     @Id
     @GeneratedValue(generator = "expense-generator")
     @GenericGenerator(name = "expense-generator",
@@ -50,4 +52,20 @@ public class Expense {
 //            joinColumns = {@JoinColumn(name = "EXPENSE_ID")},
 //            inverseJoinColumns = {@JoinColumn(name = "GROUP_ID")})
 //    private Group group;
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Expense expense = (Expense) o;
+        return Objects.equals(id, expense.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

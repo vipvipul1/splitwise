@@ -5,11 +5,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "GROUP_USER")
-public class GroupUser {
+public class GroupUser implements Serializable {
     // This is composite primary key. Instead of having a simple @ManyToMany relationship between Group & User
     // with a mapping table GROUP_USER(without an explicit class) we have created this mapping table class
     // to store an extra attribute addedBy. This a way to store extra attributes in a @ManyToMany mapping table.

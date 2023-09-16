@@ -11,4 +11,6 @@ import java.util.List;
 public interface GroupUserRepository extends JpaRepository<GroupUser, GroupUserId> {
 
     List<GroupUser> findAllByGroupAndUserIsNotIn(Group group, List<User> users);
+
+    List<GroupUser> findAllByUserId(String userId);
 }

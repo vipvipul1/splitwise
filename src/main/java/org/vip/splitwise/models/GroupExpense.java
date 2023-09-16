@@ -6,11 +6,13 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "GROUP_EXPENSE")
-public class GroupExpense {
+public class GroupExpense implements Serializable {
     @Id
     @GeneratedValue(generator = "group-expense-generator")
     @GenericGenerator(name = "group-expense-generator",
